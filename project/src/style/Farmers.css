@@ -1,0 +1,273 @@
+.farmer-panel {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  padding-top: 10px;
+  color: var(--color-text);
+  transition: color var(--transition-theme);
+}
+.search-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.search-box input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border var(--transition-theme), background var(--transition-theme),
+    color var(--transition-theme);
+}
+.search-box button {
+  background: var(--color-primary);
+  color: var(--color-button-text);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 140px;
+  transition: background var(--transition-theme), transform 0.15s ease;
+}
+.search-box button:hover {
+  background: var(--color-primary-strong);
+  /* transform: translateY(-1px); */
+}
+.seller-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  padding: 10px 0;
+}
+.seller-card {
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-card-glass);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ★ ensures button always stays at bottom */
+  height: 360px; /* ★ fixed same-height cards */
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-soft);
+  transition: 0.25s ease-in-out;
+}
+.seller-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0px 30px rgba(0, 0, 0, 0.2);
+}
+/* Wrap all content above button */
+.seller-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.card-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid var(--color-chip-border);
+  background: var(--color-chip);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.card-header-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+.seller-card h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-heading);
+  line-height: 1.3;
+  margin: 0;
+}
+.card-location {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+  width: auto;
+}
+.seller-card p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 2px 0;
+}
+.location-icon {
+  color: #e74c3c;
+  font-size: 12px;
+}
+.seller-card .commodities {
+  font-size: 13px;
+  color: var(--color-text);
+  min-height: 40px;
+  overflow: hidden;
+  margin: 8px 0;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+}
+.card-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 12px 0 0 0;
+  gap: 8px;
+  align-items: stretch;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  padding: 10px 8px;
+  background: var(--color-chip);
+  border-radius: 8px;
+  border: 1px solid var(--color-chip-border);
+  transition: background var(--transition-theme), border var(--transition-theme);
+}
+.stat-icon {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+.star-icon {
+  color: #f39c12;
+}
+.calendar-icon {
+  color: #3498db;
+}
+.match-icon {
+  color: #27ae60;
+}
+.stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.card-phone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 8px 0 0 0;
+  width: 100%;
+}
+.phone-icon {
+  color: #e74c3c;
+  font-size: 14px;
+}
+.seller-card button,
+.send-request-btn {
+  width: 100%;
+  padding: 12px;
+  background: #27ae60;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.send-request-btn:hover {
+  background: #229954;
+  /* transform: translateY(-1px); */
+}
+.btn-icon {
+  font-size: 14px;
+}
+.deal-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.deal-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--color-heading);
+}
+.deal-info {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+.deal-actions {
+  display: flex;
+  gap: 10px;
+}
+.open-chat {
+  background: var(--color-primary-soft);
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  color: var(--color-button-text);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background var(--transition-theme);
+}
+.open-chat:hover {
+  background: var(--color-primary);
+}
+.delete-btn {
+  background: var(--color-alert-bg);
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--color-alert);
+  border: 1px solid var(--color-alert-border);
+  cursor: pointer;
+  transition: background var(--transition-theme), color var(--transition-theme);
+}
+@media (max-width: 600px) {
+  .search-box {
+    flex-direction: column;
+  }
+  .search-box button {
+    width: 100%;
+  }
+  .seller-card {
+    min-height: auto;
+  }
+  .card-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .stat-item {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,13 @@
+Import Error: No module named 'numpy._core'
+Traceback (most recent call last):
+  File "D:\fyp_farm\server\server.py", line 26, in <module>
+    from src.vectorstore import FaissVectorStore
+  File "D:\fyp_farm\server\src\vectorstore.py", line 2, in <module>
+    import faiss
+  File "D:\fyp_farm\fyp_env\lib\site-packages\faiss\__init__.py", line 29, in <module>
+    from .loader import *
+  File "D:\fyp_farm\fyp_env\lib\site-packages\faiss\loader.py", line 97, in <module>
+    instruction_sets = supported_instruction_sets()
+  File "D:\fyp_farm\fyp_env\lib\site-packages\faiss\loader.py", line 55, in supported_instruction_sets
+    from numpy._core._multiarray_umath import __cpu_features__
+ModuleNotFoundError: No module named 'numpy._core'

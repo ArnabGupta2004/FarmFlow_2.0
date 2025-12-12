@@ -1,0 +1,153 @@
+/* Corresponds to .chat-window */
+.buyer-seller-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-strong);
+  transition: background var(--transition-theme), border var(--transition-theme), box-shadow var(--transition-theme);
+}
+
+/* Corresponds to .chat-header */
+.buyer-seller-chat-header {
+  background: var(--gradient-chat);
+  padding: 10px 15px;
+  color: var(--color-button-text);
+  font-weight: 700;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+}
+
+/* FIX: Styling for the back icon button */
+.buyer-seller-chat-header .chat-back-icon {
+  background: none;
+  border: none;
+  color: var(--color-button-text);
+  font-size: 1.5em;
+  margin-right: 10px;
+  padding: 0 5px;
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.2s;
+}
+.buyer-seller-chat-header .chat-back-icon:hover {
+    opacity: 0.8;
+}
+
+/* Corresponds to .chat-body */
+.buyer-seller-chat-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background: var(--color-surface-muted);
+  display: flex;
+  flex-direction: column;
+  transition: background var(--transition-theme);
+}
+
+/* Corresponds to .chat-msg */
+.buyer-seller-chat-message {
+  display: flex;
+  margin-bottom: 10px;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+/* Corresponds to .chat-msg.sent */
+.buyer-seller-user-message {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+/* Corresponds to .chat-msg.recv */
+.buyer-seller-partner-message {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+/* Corresponds to .bubble */
+.buyer-seller-message-text {
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.buyer-seller-partner-message .buyer-seller-message-text {
+  background: var(--color-chip);
+  color: var(--color-heading);
+}
+
+/* Corresponds to .chat-msg.sent .bubble */
+.buyer-seller-user-message .buyer-seller-message-text {
+  background: var(--gradient-chat);
+  color: var(--color-button-text);
+}
+
+/* New class for timestamp */
+.buyer-seller-message-time {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-top: 4px;
+  /* Adjust margin based on sender */
+  margin-right: 14px; 
+}
+.buyer-seller-partner-message .buyer-seller-message-time {
+  margin-left: 14px; 
+  margin-right: 0;
+}
+
+/* Corresponds to .chat-input-area */
+.buyer-seller-chat-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transition: background var(--transition-theme), border var(--transition-theme);
+}
+
+/* Corresponds to .chat-input */
+.buyer-seller-chat-input-area input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  font-size: 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border var(--transition-theme), box-shadow var(--transition-theme), background var(--transition-theme);
+}
+.buyer-seller-chat-input-area input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Corresponds to .chat-send-btn */
+.buyer-seller-chat-input-area button {
+  background: var(--gradient-chat);
+  color: var(--color-button-text);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+.buyer-seller-chat-input-area button:hover {
+  opacity: 0.9;
+}
+
+.buyer-seller-empty-chat {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-top: 20px;
+}

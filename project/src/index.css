@@ -1,0 +1,91 @@
+:root {
+  --color-bg: #f0ead2;
+  --color-bg-alt: #f9f7e8;
+  --color-surface: #ffffff;
+  --color-surface-muted: #fdfdfde0;
+  --color-surface-elevated: #faf7ed;
+  --color-card-glass: rgba(255, 255, 255, 0.85);
+  --color-border: #dcdcdc;
+  --color-border-strong: #c7c7b8;
+  --color-text: #6c584c;
+  --color-text-muted: #555555;
+  --color-heading: #155c34;
+  --color-subtle: #6c584c;
+  --color-primary: #2d8a4e;
+  --color-primary-strong: #1f6a39;
+  --color-primary-soft: #46b96b;
+  --color-secondary: #adc178;
+  --color-chip: #eaf9ef;
+  --color-chip-border: #d7efdc;
+  --color-alert: #dc3545;
+  --color-alert-strong: #b72833;
+  --color-alert-bg: #ffe8e8;
+  --color-alert-border: #ffbbbb;
+  --color-warning: #e6a500;
+  --color-button-text: #ffffff;
+  --gradient-dashboard: linear-gradient(145deg, #f9f7e8 0%, #f5f2df 50%, #efeccf 100%);
+  --gradient-chat: linear-gradient(90deg, #46b96b, #2d8a4e);
+  --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 8px 20px rgba(0, 0, 0, 0.14);
+  --transition-theme: 0.25s ease;
+  --color-heading-cb: #f5f7f6;
+  --color-subtle-btn: #1F6A39;
+  --icon-filter: brightness(100%);
+
+}
+
+[data-theme="dark"] {
+  --color-bg: #0f1c17;
+  --color-bg-alt: #142823;
+  --color-surface: #16352c;
+  --color-surface-muted: #1b4237;
+  --color-surface-elevated: #214f41;
+  --color-card-glass: rgba(22, 41, 35, 0.92);
+  --color-border: #2c5a4a;
+  --color-border-strong: #3c7a62;
+  --color-text: #e3f6ef;
+  --color-text-muted: #a9cfc4;
+  --color-heading: #d2f6e8;
+  --color-heading-cb: #d2f6e8;
+  --color-subtle: #c5f5e5;
+  --color-primary: #58d1a5;
+  --color-primary-strong: #16352C;
+  --color-primary-soft: #8ae6c0;
+  --color-secondary: #4ba18a;
+  --color-chip: #1e4c3f;
+  --color-chip-border: #2f6f5a;
+  --color-alert: #ffbbbb;
+  --color-alert-strong: #ffe8e8;
+  --color-alert-bg: #b72833;
+  --color-alert-border: #dc3545;
+  --color-warning: #c8f0cc;
+  --color-button-text: #06231b;
+  --gradient-dashboard: linear-gradient(145deg, #214f41 0%, #16352c 50%, #0f1c17 100%);
+  --gradient-chat: linear-gradient(90deg, #58d1a5, #8ae6c0);
+  --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.65);
+  --shadow-strong: 0 8px 26px rgba(0, 0, 0, 0.7);
+  --icon-filter: brightness(0) saturate(100%) invert(80%) sepia(20%) saturate(300%) hue-rotate(80deg) brightness(120%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color var(--transition-theme), color var(--transition-theme);
+}
+
+h1 {
+  font-weight: 900;
+  color: var(--color-heading);
+}
+
+body.chat-mode-active {
+  overflow: hidden;
+  height: 100vh;
+}

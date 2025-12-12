@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "D:\fyp_farm\server\verify_rag_init.py", line 12, in <module>
+    from src.vectorstore import FaissVectorStore
+  File "D:\fyp_farm\server\src\vectorstore.py", line 6, in <module>
+    from sentence_transformers import SentenceTransformer
+  File "D:\fyp_farm\fyp_env\lib\site-packages\sentence_transformers\__init__.py", line 15, in <module>
+    from sentence_transformers.cross_encoder import (
+  File "D:\fyp_farm\fyp_env\lib\site-packages\sentence_transformers\cross_encoder\__init__.py", line 5, in <module>
+    from .trainer import CrossEncoderTrainer
+  File "D:\fyp_farm\fyp_env\lib\site-packages\sentence_transformers\cross_encoder\trainer.py", line 13, in <module>
+    from transformers.data.data_collator import DataCollator
+  File "D:\fyp_farm\fyp_env\lib\site-packages\transformers\data\__init__.py", line 15, in <module>
+    from .data_collator import (
+  File "D:\fyp_farm\fyp_env\lib\site-packages\transformers\data\data_collator.py", line 763, in <module>
+    class DataCollatorForLanguageModeling(DataCollatorMixin):
+  File "D:\fyp_farm\fyp_env\lib\site-packages\transformers\data\data_collator.py", line 1233, in DataCollatorForLanguageModeling
+    offsets: np.ndarray[np.ndarray[tuple[int, int]]], special_tokens_mask: np.ndarray[np.ndarray[int]]
+TypeError: Too few arguments for numpy.ndarray
+Python executable: D:\fyp_farm\fyp_env\Scripts\python.exe
+Importing RAG components...
+Import failed: Too few arguments for numpy.ndarray

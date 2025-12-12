@@ -1,0 +1,14 @@
+langchain
+langchain-core
+langchain-community
+pypdf
+pymupdf
+sentence-transformers>=2.2.2
+transformers>=4.34.0
+faiss-cpu==1.7.4
+chromadb
+langchain-groq
+python-dotenv
+typesense
+langchain_openai
+langgraph

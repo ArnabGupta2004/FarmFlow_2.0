@@ -1,0 +1,130 @@
+.loginPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: var(--color-heading);
+}
+
+.loginPage form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.loginPage form div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.loginPage input {
+  padding: 10px;
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  text-align: center;
+  height: 40px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border var(--transition-theme), background var(--transition-theme), color var(--transition-theme);
+}
+
+.loginPage button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 250px;
+  transition: background var(--transition-theme), transform 0.1s ease;
+}
+
+/* Login Button Style */
+.login-button {
+  background-color: var(--color-subtle);
+  color: var(--color-button-text);
+  font-weight: 600;
+}
+
+.login-button:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+/* Error */
+.error-message {
+  color: var(--color-alert);
+  font-size: 0.9rem;
+}
+
+/* Signup link */
+.signup-text {
+  margin-top: 15px;
+}
+
+.signup-link {
+  color: var(--color-subtle);
+  font-weight: bold;
+}
+
+/* ROLE SELECTION BOX */
+.role-box > div {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.role-label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.role-options {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.role-option input {
+  width: 16px;
+  height: 16px;
+}
+
+/* Dropdown styling same as input */
+.dropdown-input {
+  padding: 10px;
+  width: 250px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  text-align: center;
+  height: 40px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border var(--transition-theme), background var(--transition-theme), color var(--transition-theme);
+}
+
