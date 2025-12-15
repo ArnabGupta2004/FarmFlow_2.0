@@ -47,5 +47,12 @@ export const translateText = async (text) => {
   } catch (error) {
     console.error('Translation error:', error);
     return text;
+    return text;
   }
 };
+
+export const predictDisease = (formData) =>
+  axios.post(`${API}/api/disease_detection/predict`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    params: { lang: getCurrentLang() }
+  }).then((r) => r.data);

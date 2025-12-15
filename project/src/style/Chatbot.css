@@ -156,8 +156,9 @@
 .msgs::-webkit-scrollbar {
   width: 5px;
 }
+
 .msgs::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 

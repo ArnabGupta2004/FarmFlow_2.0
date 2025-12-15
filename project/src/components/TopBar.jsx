@@ -234,82 +234,82 @@ function TopBar() {
               <FaUser />
             </button>
 
-            {showProfileDropdown && (
-              <div className="profile-dropdown">
-                {/* Profile Link */}
-                <div
-                  className="profile-dropdown-item"
-                  onClick={() => handleNavigation("profile")}
-                >
-                  <FaUser size={14} />
-                  <span>{t("topbar.profile")}</span>
-                </div>
-                <div className="profile-dropdown-divider" />
+            {/* Profile Dropdown */}
+            <div className={`profile-dropdown ${showProfileDropdown ? 'show' : ''}`}>
+              {/* Profile Link */}
+              <div
+                className="profile-dropdown-item"
+                onClick={() => handleNavigation("profile")}
+              >
+                <FaUser size={14} />
+                <span>{t("topbar.profile")}</span>
+              </div>
+              <div className="profile-dropdown-divider" />
 
-                {/* Language Selector nested in Profile Dropdown */}
-                <div
-                  className="profile-dropdown-item theme-row"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowLangMenu(!showLangMenu);
-                  }}
-                  style={{ position: 'relative' }}
-                >
-                  <span>{t("topbar.language")}</span>
-                  <div className="lang-mini-display">
-                    <FaGlobe size={14} />
-                    <span style={{ marginLeft: "6px", fontSize: "0.8rem", fontWeight: "600" }}>
-                      {i18n.language?.toUpperCase() || 'EN'}
-                    </span>
+              {/* Language Selector nested in Profile Dropdown */}
+              <div
+                className="profile-dropdown-item theme-row"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowLangMenu(!showLangMenu);
+                }}
+                style={{ position: 'relative' }}
+              >
+                <span>{t("topbar.language")}</span>
+                <div className="lang-mini-display">
+                  <FaGlobe size={14} />
+                  <span style={{ marginLeft: "6px", fontSize: "0.8rem", fontWeight: "600" }}>
+                    {i18n.language?.toUpperCase() || 'EN'}
+                  </span>
+                </div>
+
+                {/* Nested Language Menu - positioned absolutely relative to this item or the dropdown */}
+                {showLangMenu && (
+                  <div className="lang-dropdown-nested">
+                    {Object.entries(languages).map(([code, { name, flag }]) => (
+                      <div
+                        key={code}
+                        className={`lang-option ${i18n.language === code ? 'active' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          changeLanguage(code);
+                          setShowLangMenu(false);
+                        }}
+                      >
+                        <span className="lang-flag">{flag}</span>
+                        <span className="lang-name">{name}</span>
+                      </div>
+                    ))}
                   </div>
+                )}
+              </div>
 
-                  {/* Nested Language Menu - positioned absolutely relative to this item or the dropdown */}
-                  {showLangMenu && (
-                    <div className="lang-dropdown-nested">
-                      {Object.entries(languages).map(([code, { name, flag }]) => (
-                        <div
-                          key={code}
-                          className={`lang-option ${i18n.language === code ? 'active' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            changeLanguage(code);
-                            setShowLangMenu(false);
-                          }}
-                        >
-                          <span className="lang-flag">{flag}</span>
-                          <span className="lang-name">{name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+              {/* Theme Toggle in Dropdown */}
+              <div
+                className="profile-dropdown-item theme-row"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span>{t("topbar.theme")}</span>
 
-                {/* Theme Toggle in Dropdown */}
+                {/* Sliding Toggle Switch */}
                 <div
-                  className="profile-dropdown-item theme-row"
-                  onClick={(e) => e.stopPropagation()}
+                  className={`theme-slider ${theme === 'dark' ? 'dark-mode' : ''}`}
+                  onClick={toggleTheme}
                 >
-                  <span>{t("topbar.theme")}</span>
-
-                  {/* Sliding Toggle Switch */}
-                  <div
-                    className={`theme-slider ${theme === 'dark' ? 'dark-mode' : ''}`}
-                    onClick={toggleTheme}
-                  >
-                    <div className="slider-thumb">
-                      {theme === "dark" ? <FaMoon size={10} /> : <FaSun size={10} />}
-                    </div>
+                  <div className="slider-thumb">
+                    {theme === "dark" ? <FaMoon size={10} /> : <FaSun size={10} />}
                   </div>
-                </div>
-                <div className="profile-dropdown-divider" />
-
-                {/* Logout */}
-                <div className="profile-dropdown-item logout-item" onClick={handleLogout}>
-                  <span>{t("topbar.logout")}</span>
                 </div>
               </div>
-            )}
+              <div className="profile-dropdown-divider" />
+
+              {/* Logout */}
+              <div className="profile-dropdown-item logout-item" onClick={handleLogout}>
+                <span>{t("topbar.logout")}</span>
+              </div>
+            </div>
           </div>
+
         ) : (
           <button className="loginBtn" onClick={goToLogin}>
             {t("topbar.login")}
@@ -343,7 +343,7 @@ function TopBar() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }
 

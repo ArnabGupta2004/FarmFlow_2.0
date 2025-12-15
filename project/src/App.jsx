@@ -15,6 +15,8 @@ import Seller from "./components/Seller";
 import Farmers from "./components/Farmers";
 import ChatBox from "./components/Chatbot";
 import Profile from "./components/Profile";
+import DiseaseDetection from "./components/DiseaseDetection";
+import CropRecommendation from "./components/CropRecommendation";
 import { ThemeProvider } from "./context/ThemeContext";
 
 function AppRoutes() {
@@ -35,6 +37,8 @@ function AppRoutes() {
         {/* ✅ FIXED — Correctly assign panels */}
         <Route path="/seller" element={<Seller />} />
         <Route path="/farmer" element={<Farmers />} />
+        <Route path="/disease_detection" element={<DiseaseDetection />} />
+        <Route path="/crop_recommendation" element={<CropRecommendation />} />
 
         <Route path="/profile" element={<Profile />} />
       </Routes>

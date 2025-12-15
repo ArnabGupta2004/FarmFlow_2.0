@@ -8,7 +8,7 @@
   width: 100%;
   font-family: "Poppins", sans-serif;
   overflow: hidden;
-  background: var(--color-bg);
+  background: transparent;
   color: var(--color-text);
   transition: background var(--transition-theme), color var(--transition-theme);
 }
@@ -26,7 +26,9 @@
 
 
 .dashcard {
-  background: var(--gradient-dashboard);
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 12px;
   color: var(--color-text);
   padding: 1rem;
@@ -35,7 +37,7 @@
   flex-direction: column;
   width: 100%;
   box-shadow: var(--shadow-soft);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-glass-border);
   box-sizing: border-box;
   transition: background var(--transition-theme), color var(--transition-theme), border-color var(--transition-theme), box-shadow var(--transition-theme);
 }
@@ -74,7 +76,7 @@
   border-radius: 14px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #02250d, #054814, #f0ebc8);
+  background: var(--color-glass);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
@@ -85,6 +87,65 @@
   height: 350px;
   display: flex;
   flex-direction: column;
+  background: rgba(255, 237, 164, 0.722);
+}
+
+[data-theme="dark"] .forecast {
+  background: var(--color-glass);
+}
+
+.forecast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.forecast-header h3 {
+  margin: 0;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+}
+
+.live-text {
+  font-size: 11px;
+  font-weight: bold;
+  color: red;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 
@@ -202,7 +263,9 @@
 
 
 .dashcard.schemes {
-  background: var(--gradient-dashboard);
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 14px;
   color: var(--color-text);
 
@@ -210,7 +273,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-glass-border);
 }
 
 /* =============================
@@ -246,8 +309,11 @@
   max-width: 100%;
   flex-shrink: 0;
   height: 180px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-glass);
+  /* Glass for inner cards too? Or surface? keeping glass for now */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
   border-left: 5px solid var(--color-secondary);
   border-radius: 12px;
   padding: 12px;
@@ -258,6 +324,33 @@
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
+}
+
+/* =============================
+      GOV SCHEME CAROUSEL
+============================= */
+
+.scheme-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scheme-carousel-container {
+  display: flex;
+  scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Hide scrollbar Firefox */
+}
+
+.scheme-carousel-container::-webkit-scrollbar {
+  display: none;
+  /* Hide scrollbar Chrome/Safari */
 }
 
 .schemes h3 {
@@ -276,7 +369,7 @@
 
   background: linear-gradient(to bottom,
       rgba(255, 255, 255, 0),
-      var(--color-surface));
+      var(--color-glass));
 
   pointer-events: none;
 }
@@ -328,7 +421,7 @@
 }
 
 .carousel-btn:hover {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .left-btn {
@@ -350,8 +443,10 @@
 }
 
 .weather {
-  background: var(--gradient-dashboard);
-  border: 1px solid var(--color-border);
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
   border-radius: 12px;
   color: var(--color-text);
   box-shadow: var(--shadow-soft);
@@ -394,6 +489,18 @@
   justify-content: center;
 }
 
+
+.weather h3,
+.schemes h3,
+.forecast-header h3 {
+  color: var(--color-heading);
+}
+
+[data-theme="dark"] .weather h3,
+[data-theme="dark"] .schemes h3,
+[data-theme="dark"] .forecast-header h3 {
+  color: var(--color-text);
+}
 
 .alert-title {
   font-size: 12px;

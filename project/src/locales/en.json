@@ -92,6 +92,18 @@
     "serverError": "Server error",
     "serverUnreachable": "Server Unreachable"
   },
+  "disease_detection": {
+    "title": "Crop Doctor",
+    "subtitle": "Detect crop diseases instantly with AI",
+    "upload": "Upload Image",
+    "camera": "Camera Capture",
+    "predict": "Diagnose Crop",
+    "analyzing": "Analyzing...",
+    "diagnosisResult": "Diagnosis Result",
+    "confidence": "Confidence",
+    "healthyMsg": "Your crop looks healthy! Keep up the good work.",
+    "warningMsg": "Disease detected. Please consult an expert or apply recommended fungicides."
+  },
   "farmers": {
     "marketplace": "Farmer Marketplace",
     "cropPlaceholder": "Crop",
@@ -110,7 +122,10 @@
     "requestSent": "Request sent",
     "requestFailed": "Request failed",
     "deleteConfirm": "Delete permanently?",
-    "missingIds": "Required IDs are missing for this deal. Cannot open chat."
+    "missingIds": "Required IDs are missing for this deal. Cannot open chat.",
+    "uploadImage": "Please upload an image first",
+    "success": "Prediction Complete!",
+    "error": "Prediction failed. Please try again."
   },
   "seller": {
     "defaultName": "Seller",
@@ -140,5 +155,11 @@
     "delete": "Delete",
     "edit": "Edit",
     "close": "Close"
+  },
+  "crop_recommendation": {
+    "title": "Crop Recommendation",
+    "subtitle": "Find the perfect crop for your soil & climate",
+    "autoMode": "Recommend based on location and weather",
+    "getButton": "Get Crop Recommendation"
   }
 }

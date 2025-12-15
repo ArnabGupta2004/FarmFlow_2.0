@@ -15,6 +15,7 @@ import {
 } from "recharts";
 
 import API, { getUser, getCurrentLang, translateText } from "../api.js";
+import { useTheme } from "../context/ThemeContext";
 
 const BASE_URL = API;
 
@@ -45,11 +46,49 @@ export default function Dashboard() {
 
 
   const fetchWeatherForecast = async (lat, lon) => {
+    const cacheKey = `forecast_${lat}_${lon}`;
+    const cachedData = localStorage.getItem(cacheKey);
+
+    if (cachedData) {
+      const { timestamp, data } = JSON.parse(cachedData);
+      const isFresh = Date.now() - timestamp < 5 * 60 * 1000; // 5 minutes
+
+      if (isFresh && data.forecast) {
+        // Use cached data
+        const to12Hour = (timeStr) => {
+          let [hour, minute] = timeStr.split(":");
+          hour = parseInt(hour, 10);
+          const suffix = hour >= 12 ? "PM" : "AM";
+          hour = hour % 12 || 12;
+          return `${hour}:${minute} ${suffix}`;
+        };
+
+        const formatted = data.forecast.map((item) => {
+          const time24 = item.dt_txt.split(" ")[1].slice(0, 5);
+          return {
+            time: to12Hour(time24),
+            temp: item.main.temp,
+            humidity: item.main.humidity,
+            rain: item.rain?.["3h"] || 0,
+          };
+        });
+
+        setForecast(formatted);
+        return; // Skip fetch
+      }
+    }
+
     try {
       const res = await fetch(`${BASE_URL}/api/weather/forecast?lat=${lat}&lon=${lon}&lang=${getCurrentLang()}`);
       const data = await res.json();
 
       if (res.ok && data.forecast) {
+        // Update cache
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timestamp: Date.now(),
+          data: data
+        }));
+
         const to12Hour = (timeStr) => {
           let [hour, minute] = timeStr.split(":");
           hour = parseInt(hour, 10);
@@ -430,6 +469,8 @@ export default function Dashboard() {
     return Math.min(Math.max(progress * 100, 0), 100);
   };
 
+  const { theme } = useTheme();
+
   const sortedFarmList = [...farmList]
     .filter((item) => {
       const end = new Date(item.date).getTime();
@@ -438,21 +479,149 @@ export default function Dashboard() {
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const ForecastChart = ({ data }) => (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 10, right: 20, bottom: 10, left: 0 }}>
-        <CartesianGrid stroke="rgba(130,130,130,0.5)" strokeDasharray="3 3" />
-        <XAxis dataKey="time" tick={{ fill: "#888", fontSize: 11 }} stroke="#888" />
-        <YAxis yAxisId="left" tick={{ fill: "#888", fontSize: 11 }} stroke="#888" />
-        <YAxis yAxisId="right" orientation="right" tick={{ fill: "#888", fontSize: 11 }} stroke="#888" />
-        <Tooltip />
-        <Line yAxisId="left" type="monotone" dataKey="temp" stroke="#ff5722" strokeWidth={2} dot={false} name={t("dashboard.temperature")} />
-        <Line yAxisId="right" type="monotone" dataKey="rain" stroke="#2196f3" strokeWidth={2} dot={false} name={t("dashboard.rainfall")} />
-        <Line yAxisId="left" type="monotone" dataKey="humidity" stroke="#4caf50" strokeWidth={2} dot={false} name={t("dashboard.humidity")} />
-        <Legend wrapperStyle={{ color: "#888" }} />
-      </LineChart>
-    </ResponsiveContainer>
-  );
+  const ForecastChart = ({ data }) => {
+    // Unique ID suffix to prevent conflicts if multiple charts exist
+    const uid = React.useId().replace(/:/g, "");
+
+    // Axis Color based on Theme
+    const axisColor = theme === "dark" ? "#888" : "#505050ff";
+
+    // Animation config
+    const speedFactor = 2.2;
+    const baseDuration = 30;
+    const duration = baseDuration / speedFactor; // ~13.6s
+    const durStr = `${duration.toFixed(1)}s`;
+
+    // Custom Tooltip to filter duplicates
+    const CustomTooltip = ({ active, payload, label }) => {
+      if (active && payload && payload.length) {
+        // Filter out duplicate dataKeys, keeping only the first one (Base line)
+        const uniquePayload = [];
+        const seenKeys = new Set();
+
+        payload.forEach(item => {
+          if (!seenKeys.has(item.dataKey)) {
+            uniquePayload.push(item);
+            seenKeys.add(item.dataKey);
+          }
+        });
+
+        return (
+          <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
+            <p className="label" style={{ margin: 0, color: '#666', fontSize: '12px', fontWeight: 'bold' }}>{label}</p>
+            {uniquePayload.map((entry, index) => (
+              <p key={index} style={{ color: entry.color, margin: '4px 0 0 0', fontSize: '12px', fontWeight: 'bold' }}>
+                {entry.name}: {entry.value}
+              </p>
+            ))}
+          </div>
+        );
+      }
+      return null;
+    };
+
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 10, right: 20, bottom: 10, left: 0 }}>
+          <defs>
+            {/* Feathered Gradient for Mask */}
+            <linearGradient id={`featherGradient-${uid}`} x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="black" />
+              <stop offset="20%" stopColor="white" />
+              <stop offset="80%" stopColor="white" />
+              <stop offset="100%" stopColor="black" />
+            </linearGradient>
+
+            {/* Masks with Staggered Animations */}
+            {[0, 1, 2].map((i) => (
+              <mask id={`glowMask-${uid}-${i}`} key={i}>
+                <rect x="0" y="0" width="100%" height="100%" fill="black" />
+                <rect x="-30%" y="0" width="30%" height="100%" fill={`url(#featherGradient-${uid})`}>
+                  <animate
+                    attributeName="x"
+                    from="-30%"
+                    to="130%"
+                    dur={durStr}
+                    begin={`${i * 1.5}s`} // Staggered start
+                    repeatCount="indefinite"
+                    calcMode="spline"
+                    keyTimes="0; 1"
+                    keySplines="0.42 0 0.58 1" // Ease-in-out cubic-bezier look-alike
+                  />
+                </rect>
+              </mask>
+            ))}
+
+            {/* Glow Blur Filter */}
+            <filter id={`glowBlur-${uid}`} x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <CartesianGrid stroke="rgba(130,130,130,0.5)" strokeDasharray="3 3" />
+          <XAxis dataKey="time" tick={{ fill: axisColor, fontSize: 11, fontWeight: 'bold' }} stroke={axisColor} />
+          <YAxis yAxisId="left" tick={{ fill: axisColor, fontSize: 11, fontWeight: 'bold' }} stroke={axisColor} />
+          <YAxis yAxisId="right" orientation="right" tick={{ fill: axisColor, fontSize: 11, fontWeight: 'bold' }} stroke={axisColor} />
+          <Tooltip content={<CustomTooltip />} />
+
+          {/* BASE LINES */}
+          <Line yAxisId="left" type="monotone" dataKey="temp" stroke="#ff5722" strokeWidth={2} dot={false} name={t("dashboard.temperature")} />
+          <Line yAxisId="left" type="monotone" dataKey="rain" stroke="#2196f3" strokeWidth={2} dot={false} name={t("dashboard.rainfall")} />
+          <Line yAxisId="left" type="monotone" dataKey="humidity" stroke="#4caf50" strokeWidth={2} dot={false} name={t("dashboard.humidity")} />
+
+          {/* GLOW OVERLAY LINES (Blurred & Masked with Stagger) */}
+
+          {/* Temp Glow (Delay 0) */}
+          <Line
+            legendType="none"
+            yAxisId="left"
+            type="monotone"
+            dataKey="temp"
+            stroke="#ff5722"
+            strokeWidth={3}
+            dot={false}
+            mask={`url(#glowMask-${uid}-0)`}
+            filter={`url(#glowBlur-${uid})`}
+            isAnimationActive={false}
+          />
+
+          {/* Rain Glow (Delay 1) */}
+          <Line
+            legendType="none"
+            yAxisId="left"
+            type="monotone"
+            dataKey="rain"
+            stroke="#2196f3"
+            strokeWidth={3}
+            dot={false}
+            mask={`url(#glowMask-${uid}-1)`}
+            filter={`url(#glowBlur-${uid})`}
+            isAnimationActive={false}
+          />
+
+          {/* Humidity Glow (Delay 2) */}
+          <Line
+            legendType="none"
+            yAxisId="left"
+            type="monotone"
+            dataKey="humidity"
+            stroke="#4caf50"
+            strokeWidth={3}
+            dot={false}
+            mask={`url(#glowMask-${uid}-2)`}
+            filter={`url(#glowBlur-${uid})`}
+            isAnimationActive={false}
+          />
+
+          <Legend wrapperStyle={{ color: axisColor, fontWeight: 'bold' }} />
+        </LineChart>
+      </ResponsiveContainer>
+    );
+  };
   const SchemeCarousel = ({ schemes, translatedSchemeNames, translatedSchemeDetails, translatedSchemeDescriptions }) => {
     const containerRef = React.useRef(null);
     const [index, setIndex] = React.useState(0);
@@ -665,7 +834,13 @@ export default function Dashboard() {
 
         {/* FORECAST */}
         <div className="dashcard forecast">
-          <h3>{t("dashboard.weatherForecast")}</h3>
+          <div className="forecast-header">
+            <h3>{t("dashboard.weatherForecast")}</h3>
+            <div className="live-indicator">
+              <span className="live-dot"></span>
+              <span className="live-text" style={{ color: "#ffffffff" }}>Live Forecast</span>
+            </div>
+          </div>
           {forecast.length === 0 ? (
             <p>{t("dashboard.fetching")}</p>
           ) : (

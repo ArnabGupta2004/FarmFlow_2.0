@@ -1,0 +1,327 @@
+/* CropRecommendation.css */
+
+.crop-rec-container {
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-text);
+}
+
+.detected-state-text {
+    margin-left: 46px;
+    /* Align with label text */
+    margin-top: -10px;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    animation: fadeIn 0.3s ease;
+}
+
+.cr-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cr-header h1 {
+    font-size: 2.5rem;
+    color: var(--color-heading);
+    margin-bottom: 0.5rem;
+}
+
+.cr-card {
+    background: var(--color-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    /* Reduced from 30px */
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 20px;
+}
+
+/* Controls Bottom */
+.controls-section-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Reduced from 20px */
+    margin-top: 15px;
+    /* Reduced from 30px */
+    margin-bottom: 5px;
+    /* Reduced from 10px */
+    padding-top: 15px;
+    /* Reduced from 20px */
+    border-top: 1px solid var(--color-glass-border);
+}
+
+.mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+/* Hide default checkbox */
+.mode-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+/* Custom Round Checkbox Visual */
+.round-checkbox-visual {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    background: transparent;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Checked State */
+.mode-toggle input:checked~.round-checkbox-visual {
+    background: var(--color-primary);
+}
+
+/* Checkmark (Pseudo-element) */
+.mode-toggle input:checked~.round-checkbox-visual::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bottom-select {
+    animation: fadeIn 0.3s ease;
+}
+
+.state-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.state-select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    /* Reduced from 20px */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    padding: 8px;
+    /* Slightly reduced form padding */
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 1rem;
+}
+
+.form-group input:read-only {
+    background: rgba(0, 0, 0, 0.05);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Button */
+.recommend-btn {
+    width: 100%;
+    margin-top: 20px;
+    /* Reduced from 30px */
+    padding: 15px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.recommend-btn:hover:not(:disabled) {
+    background: var(--color-primary-strong);
+}
+
+.recommend-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Result */
+.result-section {
+    text-align: center;
+    margin-top: 20px;
+    /* Reduced from 30px */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-icon {
+    font-size: 50px;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.recommended-crop {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    text-transform: capitalize;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    /* Reduced from 30px */
+}
+
+.alternatives-section {
+    text-align: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--color-border);
+}
+
+.alternatives-section h4 {
+    color: var(--color-text);
+    margin-bottom: 15px;
+}
+
+
+
+.alternatives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 20px;
+    /* Indent list to align visually with header or just slightly indented */
+    margin: 0;
+}
+
+.alternatives-list li {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: capitalize;
+    /* Capitalize crop names */
+}
+
+/* 7-Column Layout Grid */
+.layout-grid-7col {
+    display: grid;
+    /* control position here (adjust column ratios) */
+    grid-template-columns: 4fr 3fr;
+    gap: 20px;
+    align-items: stretch;
+    /* Stretch to matching heights */
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 900px) {
+    .layout-grid-7col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.left-panel,
+.right-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-card,
+.result-card,
+.result-card-fixed {
+    height: 100%;
+    /* control height here */
+    min-height: 420px;
+    /* Fixed minimum height for professional look */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* distribute content */
+}
+
+.result-card,
+.result-card-fixed {
+    justify-content: center;
+    /* Center result if it's small, or use space-between if full */
+    align-items: center;
+    /* Center horizontally */
+    text-align: center;
+}
+
+.result-content-wrapper {
+    width: 100%;
+    flex-grow: 1;
+    /* Allow content to fill space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.placeholder-result {
+    color: var(--color-text-muted);
+    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.placeholder-icon {
+    font-size: 80px;
+    color: var(--color-border);
+}
+
+.crop-rec-container {
+    max-width: 1200px;
+    /* Wider container for split view */
+}

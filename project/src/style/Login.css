@@ -1,6 +1,6 @@
 .loginPage {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +84,7 @@
 }
 
 /* ROLE SELECTION BOX */
-.role-box > div {
+.role-box>div {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: center !important;
@@ -127,4 +127,3 @@
   color: var(--color-text);
   transition: border var(--transition-theme), background var(--transition-theme), color var(--transition-theme);
 }
-

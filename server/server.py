@@ -1035,5 +1035,222 @@ def health():
 # ============================================================
 # MAIN
 # ============================================================
+
+# ============================================================
+# DISEASE DETECTION (FROM USER CODE)
+# ============================================================
+import numpy as np
+from PIL import Image
+import io
+
+# Load Model Globally
+DISEASE_MODEL = None
+DISEASE_MODEL_ERROR = None
+
+try:
+    print("Loading Disease Model...")
+    import tensorflow as tf
+    model_path = os.path.join(os.path.dirname(__file__), "models", "trained_plant_disease_model.h5")
+    if os.path.exists(model_path):
+        DISEASE_MODEL = tf.keras.models.load_model(model_path)
+        print("Disease Model Loaded Successfully!")
+    else:
+        DISEASE_MODEL_ERROR = f"Model file not found at {model_path}"
+        print(DISEASE_MODEL_ERROR)
+except Exception as e:
+    DISEASE_MODEL_ERROR = str(e)
+    print(f"Error loading disease model: {e}")
+
+DISEASE_CLASSES = [
+    "Apple___Apple_scab", "Apple___Black_rot", "Apple___Cedar_apple_rust", "Apple___healthy",
+    "Blueberry___healthy", "Cherry_(including_sour)___Powdery_mildew", "Cherry_(including_sour)___healthy",
+    "Corn_(maize)___Cercospora_leaf_spot_Gray_leaf_spot", "Corn_(maize)___Common_rust_",
+    "Corn_(maize)___Northern_Leaf_Blight", "Corn_(maize)___healthy", "Grape___Black_rot",
+    "Grape___Esca_(Black_Measles)", "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)", "Grape___healthy",
+    "Orange___Haunglongbing_(Citrus_greening)", "Orange___healthy", "Peach___Bacterial_spot",
+    "Peach___healthy", "Pepper,_bell___Bacterial_spot", "Pepper,_bell___healthy", "Potato___Early_blight",
+    "Potato___Late_blight", "Potato___healthy", "Raspberry___healthy", "Soybean___healthy",
+    "Squash___Powdery_mildew", "Strawberry___Leaf_scorch", "Strawberry___healthy", "Tomato___Bacterial_spot",
+    "Tomato___Early_blight", "Tomato___Late_blight", "Tomato___Leaf_Mold", "Tomato___Septoria_leaf_spot",
+    "Tomato___Spider_mites Two-spotted_spider_mite", "Tomato___Target_Spot",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus", "Tomato___Tomato_mosaic_virus", "Tomato___healthy"
+]
+
+@app.get("/api/disease_detection/status")
+def disease_status():
+    status = "loaded" if DISEASE_MODEL is not None else "failed"
+    return jsonify({"status": status, "error": DISEASE_MODEL_ERROR}), 200
+
+@app.post("/api/disease_detection/predict")
+def predict_disease():
+    print(f"Prediction Request. Model: {DISEASE_MODEL}")
+    if DISEASE_MODEL is None:
+        return jsonify({"error": "Model not loaded. Check server logs."}), 500
+
+    if 'image' not in request.files:
+        return jsonify({"error": "No image file provided"}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        # Preprocess
+        img = Image.open(file.stream).convert('RGB')
+        img = img.resize((128, 128))
+        x = np.array(img)
+        x = np.expand_dims(x, axis=0)
+        x = x / 255.0
+
+        # Predict
+        predictions = DISEASE_MODEL.predict(x)
+        predicted_index = np.argmax(predictions[0])
+        confidence = float(predictions[0][predicted_index] * 100)
+        disease_name = DISEASE_CLASSES[predicted_index]
+
+        return jsonify({
+            "disease": disease_name,
+            "confidence": confidence
+        }), 200
+
+    except Exception as e:
+        print("Prediction Error:", e)
+        return jsonify({"error": str(e)}), 500
+
+# ============================================================
+# CROP RECOMMENDATION (FROM USER CODE)
+# ============================================================
+import pickle
+import pandas as pd
+import sklearn  # Ensure sklearn is available for unpickling
+
+# Load Models & Data
+CROP_MODELS = {}
+SOIL_DATA = None
+
+try:
+    print("Loading Crop Recommendation Models...")
+    base_path = os.path.dirname(__file__)
+    models_path = os.path.join(base_path, "models")
+    
+    # Load Pickles
+    CROP_MODELS['encoder'] = pickle.load(open(os.path.join(models_path, "encoder.pkl"), 'rb'))
+    CROP_MODELS['scaler'] = pickle.load(open(os.path.join(models_path, "scaler.pkl"), 'rb'))
+    CROP_MODELS['model'] = pickle.load(open(os.path.join(models_path, "model_gbc.pkl"), 'rb'))
+    
+    # Load CSV
+    csv_path = os.path.join(base_path, "shc_scaled_to_crop_range.csv")
+    if os.path.exists(csv_path):
+        SOIL_DATA = pd.read_csv(csv_path)
+        print("Crop Recommendation Models & Data Loaded Successfully!")
+    else:
+        print(f"Crop CSV not found at {csv_path}")
+
+except Exception as e:
+    print(f"Error loading crop recommendation models: {e}")
+
+# Helper: Get Weather
+def get_weather_for_state(state_name):
+    try:
+        if not OPENWEATHER_KEY:
+            return None, None, None
+        
+        # OpenWeather API call
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={state_name},IN&appid={OPENWEATHER_KEY}&units=metric"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            temp = data["main"].get("temp", 0.0)
+            hum = data["main"].get("humidity", 0.0)
+            rain = data.get("rain", {}).get("1h", 0.0)
+            return temp, hum, rain
+        return None, None, None
+    except Exception as e:
+        print(f"Weather Fetch Error: {e}")
+        return None, None, None
+
+@app.get("/api/recommender/states")
+def get_states():
+    if SOIL_DATA is not None:
+        try:
+            states = SOIL_DATA['State'].unique().tolist()
+            states.sort()
+            return jsonify(states), 200
+        except Exception as e:
+             return jsonify({"error": str(e)}), 500
+    return jsonify([]), 500
+
+@app.get("/api/recommender/data")
+def get_recommender_data():
+    state = request.args.get("state")
+    if not state or SOIL_DATA is None:
+        return jsonify({"error": "Invalid state or data not loaded"}), 400
+    
+    try:
+        subset = SOIL_DATA[SOIL_DATA['State'] == state]
+        if subset.empty:
+             return jsonify({"error": "State not found in dataset"}), 404
+             
+        row = subset.iloc[0]
+        temp, hum, rain = get_weather_for_state(state)
+        
+        data = {
+            "N": float(row['N']),
+            "P": float(row['P']),
+            "K": float(row['K']),
+            "ph": float(row['pH']),
+            "temperature": temp if temp is not None else 25.0, 
+            "humidity": hum if hum is not None else 50.0,
+            "rainfall": rain if rain is not None else 0.0
+        }
+        return jsonify(data), 200
+    except Exception as e:
+        print(f"Data Fetch Error: {e}")
+        return jsonify({"error": "Failed to fetch data"}), 500
+
+@app.post("/api/recommender/predict")
+def predict_crop_recommendation():
+    try:
+        if 'model' not in CROP_MODELS:
+            return jsonify({"error": "Models not loaded"}), 500
+            
+        data = request.json
+        input_data = [
+            data.get('N'),
+            data.get('P'),
+            data.get('K'),
+            data.get('temperature'),
+            data.get('humidity'),
+            data.get('ph'),
+            data.get('rainfall')
+        ]
+        
+        if any(x is None for x in input_data):
+             return jsonify({"error": "Missing input values"}), 400
+             
+        input_df = pd.DataFrame([input_data], columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
+        
+        scaler = CROP_MODELS['scaler']
+        input_scaled = scaler.transform(input_df)
+        
+        model = CROP_MODELS['model']
+        # Use predict_proba to get probabilities
+        probabilities = model.predict_proba(input_scaled)[0]
+        
+        # Get top 4 indices
+        top_4_indices = np.argsort(probabilities)[-4:][::-1]
+        
+        encoder = CROP_MODELS['encoder']
+        top_crops = encoder.inverse_transform(top_4_indices)
+        
+        return jsonify({
+            "top_crop": top_crops[0],
+            "alternatives": top_crops[1:].tolist()
+        }), 200
+        
+    except Exception as e:
+        print(f"Prediction Error: {e}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=PORT, debug=True)

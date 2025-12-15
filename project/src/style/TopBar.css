@@ -1,6 +1,9 @@
 .topbar {
   margin: 0;
-  background-color: var(--color-bg);
+  background-color: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-glass-border);
   color: var(--color-subtle);
   display: flex;
   align-items: center;
@@ -12,8 +15,12 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: background-color var(--transition-theme), color var(--transition-theme);
+  transition: background-color var(--transition-theme), color var(--transition-theme), border-color var(--transition-theme);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  /* Subtle shadow for depth */
 }
+
+/* [data-theme="dark"] .topbar rule removed as variable handles it */
 
 .name {
   display: flex;
@@ -409,19 +416,21 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  animation: fadeIn 0.15s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  /* Animation State (Closed) */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.profile-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .profile-dropdown-item {
