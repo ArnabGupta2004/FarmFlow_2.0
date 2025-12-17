@@ -755,7 +755,7 @@ export default function Dashboard() {
                   </p>
                 </>
               ) : (
-                <p>{t("dashboard.fetching")}</p>
+                null
               )}
             </div>
             <div className="weather-right">
@@ -821,7 +821,7 @@ export default function Dashboard() {
           <h3>{t("dashboard.govtSchemes")}</h3>
 
           {schemes.length === 0 ? (
-            <p>{t("dashboard.noSchemes")}</p>
+            null
           ) : (
             <SchemeCarousel
               schemes={schemes}

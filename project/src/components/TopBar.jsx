@@ -1,5 +1,6 @@
 import "../style/TopBar.css";
-import icon from "../icon/logo.png";
+import iconDark from "../icon/logo.png";
+import iconLight from "../icon/logod.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -149,7 +150,7 @@ function TopBar() {
     <div className="topbar">
       {/* LEFT: Logo */}
       <div className="name" onClick={goToHome}>
-        <img src={icon} alt="icon" />
+        <img src={theme === "light" ? iconLight : iconDark} alt="icon" />
       </div>
 
       {/* CENTER: Market + More Options (desktop only) */}

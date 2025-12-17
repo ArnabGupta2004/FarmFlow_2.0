@@ -16,7 +16,9 @@
     "language": "भाषा",
     "harvestAlerts": "कापणी सूचना",
     "noAlerts": "कापणी सूचना नाही",
-    "readyToHarvest": "तुमचे {{crop}} कापणीसाठी तयार आहे"
+    "readyToHarvest": "तुमचे {{crop}} कापणीसाठी तयार आहे",
+    "profile": "Profile",
+    "theme": "Theme"
   },
   "dashboard": {
     "hello": "नमस्कार",
@@ -40,10 +42,13 @@
     "schemeLink": "योजना दुवा",
     "noSchemes": "योजना सापडल्या नाहीत",
     "weatherAlerts": "हवामान सूचना",
-    "noAlerts": "सूचना नाहीत"
+    "noAlerts": "सूचना नाहीत",
+    "celsius": "°C",
+    "rain": "Rain:",
+    "mm": "mm"
   },
   "login": {
-    "title": "लॉगिन",
+    "title": "Login",
     "uniqueID": "युनिक आयडी",
     "password": "पासवर्ड",
     "loginButton": "लॉगिन करा",
@@ -55,7 +60,7 @@
     "serverError": "सर्व्हर त्रुटी. नंतर पुन्हा प्रयत्न करा."
   },
   "signup": {
-    "title": "साइन अप",
+    "title": "Sign Up",
     "uniqueID": "युनिक आयडी",
     "email": "ईमेल",
     "password": "पासवर्ड",
@@ -81,7 +86,7 @@
     "serverError": "सर्व्हर त्रुटी. पुन्हा प्रयत्न करा."
   },
   "chatbot": {
-    "title": "कृषीमित्र चॅटबॉट",
+    "title": "किसानमित्र असिस्ट",
     "placeholder": "तुमचा संदेश टाइप करा...",
     "send": "पाठवा",
     "serverError": "सर्व्हर त्रुटी",
@@ -105,7 +110,13 @@
     "requestSent": "विनंती पाठवली",
     "requestFailed": "विनंती अयशस्वी",
     "deleteConfirm": "कायमचे हटवायचे?",
-    "missingIds": "या व्यवहारासाठी आवश्यक IDs गहाळ आहेत. चॅट उघडता येत नाही."
+    "missingIds": "या व्यवहारासाठी आवश्यक IDs गहाळ आहेत. चॅट उघडता येत नाही.",
+    "uploadImage": "Please upload an image first",
+    "success": "Prediction Complete!",
+    "error": "Prediction failed. Please try again.",
+    "heroTitle": "Find the perfect dealer for your crops",
+    "messages": "Messages",
+    "noActiveChats": "No Active Chats"
   },
   "seller": {
     "defaultName": "विक्रेता",
@@ -135,5 +146,51 @@
     "delete": "हटवा",
     "edit": "संपादित करा",
     "close": "बंद करा"
+  },
+  "crop_recommendation": {
+    "title": "Crop Recommendation",
+    "subtitle": "Find the perfect crop for your soil & climate",
+    "autoMode": "Recommend based on location and weather",
+    "getButton": "Get Crop Recommendation",
+    "nitrogen": "Nitrogen (N)",
+    "phosphorus": "Phosphorus (P)",
+    "potassium": "Potassium (K)",
+    "phLevel": "pH Level",
+    "temperature": "Temperature (°C)",
+    "humidity": "Humidity (%)",
+    "rainfall": "Rainfall (mm)",
+    "locationDetected": "Location detected: {{location}}",
+    "dataFetched": "Data fetched for {{state}}",
+    "fetchFailed": "Failed to fetch data for state",
+    "analyzing": "Analyzing...",
+    "bestCrop": "Best Crop according to data:",
+    "otherCrops": "Other crops to consider:",
+    "enterDetails": "Enter soil details or auto-detect location to get a recommendation."
+  },
+  "disease_detection": {
+    "title": "Crop Doctor",
+    "subtitle": "Detect crop diseases instantly with AI",
+    "upload": "Upload Image",
+    "camera": "Camera Capture",
+    "predict": "Diagnose Crop",
+    "analyzing": "Analyzing...",
+    "diagnosisResult": "Diagnosis Result",
+    "confidence": "Confidence",
+    "healthyMsg": "Your crop looks healthy! Keep up the good work.",
+    "warningMsg": "Disease detected. Please consult an expert or apply recommended fungicides.",
+    "clickOrDrag": "Click or Drag Image Here",
+    "capture": "Capture",
+    "placeholder": "Upload or capture an image to see the diagnosis here."
+  },
+  "profile": {
+    "userNotFound": "User not found",
+    "username": "Username",
+    "email": "Email",
+    "location": "Location",
+    "notSpecified": "Not specified",
+    "yourHarvests": "Your Harvests",
+    "noHarvestHistory": "No harvest history yet.",
+    "completed": "Completed: ",
+    "notLoggedIn": "Not logged in"
   }
 }

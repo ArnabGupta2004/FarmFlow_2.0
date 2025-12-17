@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
 } from "react-router-dom";
 import React from "react";
 
@@ -13,16 +12,13 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Seller from "./components/Seller";
 import Farmers from "./components/Farmers";
-import ChatBox from "./components/Chatbot";
+// ChatBox import removed
 import Profile from "./components/Profile";
 import DiseaseDetection from "./components/DiseaseDetection";
 import CropRecommendation from "./components/CropRecommendation";
 import { ThemeProvider } from "./context/ThemeContext";
 
 function AppRoutes() {
-  const location = useLocation();
-  const showChat = location.pathname === "/" || location.pathname === "/home";
-
   return (
     <>
       <TopBar />
@@ -42,8 +38,6 @@ function AppRoutes() {
 
         <Route path="/profile" element={<Profile />} />
       </Routes>
-
-      {showChat && <ChatBox />}
     </>
   );
 }

@@ -150,9 +150,10 @@ export default function CropRecommendation() {
 
     return (
         <div className="crop-rec-container">
+            <div className="cr-page-background"></div>
             <Toaster />
             <div className="cr-header">
-                <h1>🌱 {t("crop_recommendation.title") || "Crop Recommendation"}</h1>
+                <h1>{t("crop_recommendation.title") || "Crop Recommendation"}</h1>
                 <p>{t("crop_recommendation.subtitle") || "Find the perfect crop for your soil & climate"}</p>
             </div>
 
@@ -163,7 +164,7 @@ export default function CropRecommendation() {
                         <div className="form-grid">
                             {/* Soil Nutrients */}
                             <div className="form-group">
-                                <label><FaFlask /> Nitrogen (N)</label>
+                                <label><FaFlask /> {t("crop_recommendation.nitrogen")}</label>
                                 <input
                                     type="number" name="N"
                                     value={formData.N} onChange={handleInputChange}
@@ -172,7 +173,7 @@ export default function CropRecommendation() {
                                 />
                             </div>
                             <div className="form-group">
-                                <label><FaFlask /> Phosphorus (P)</label>
+                                <label><FaFlask /> {t("crop_recommendation.phosphorus")}</label>
                                 <input
                                     type="number" name="P"
                                     value={formData.P} onChange={handleInputChange}
@@ -181,7 +182,7 @@ export default function CropRecommendation() {
                                 />
                             </div>
                             <div className="form-group">
-                                <label><FaFlask /> Potassium (K)</label>
+                                <label><FaFlask /> {t("crop_recommendation.potassium")}</label>
                                 <input
                                     type="number" name="K"
                                     value={formData.K} onChange={handleInputChange}
@@ -190,7 +191,7 @@ export default function CropRecommendation() {
                                 />
                             </div>
                             <div className="form-group">
-                                <label><FaTint /> pH Level</label>
+                                <label><FaTint /> {t("crop_recommendation.phLevel")}</label>
                                 <input
                                     type="number" name="ph" step="0.1"
                                     value={formData.ph} onChange={handleInputChange}
@@ -201,7 +202,7 @@ export default function CropRecommendation() {
 
                             {/* Weather */}
                             <div className="form-group">
-                                <label><FaThermometerHalf /> Temperature (°C)</label>
+                                <label><FaThermometerHalf /> {t("crop_recommendation.temperature")}</label>
                                 <input
                                     type="number" name="temperature" step="0.1"
                                     value={formData.temperature} onChange={handleInputChange}
@@ -210,7 +211,7 @@ export default function CropRecommendation() {
                                 />
                             </div>
                             <div className="form-group">
-                                <label><FaTint /> Humidity (%)</label>
+                                <label><FaTint /> {t("crop_recommendation.humidity")}</label>
                                 <input
                                     type="number" name="humidity" step="0.1"
                                     value={formData.humidity} onChange={handleInputChange}
@@ -219,7 +220,7 @@ export default function CropRecommendation() {
                                 />
                             </div>
                             <div className="form-group">
-                                <label><FaCloudRain /> Rainfall (mm)</label>
+                                <label><FaCloudRain /> {t("crop_recommendation.rainfall")}</label>
                                 <input
                                     type="number" name="rainfall" step="0.1"
                                     value={formData.rainfall} onChange={handleInputChange}
@@ -243,7 +244,7 @@ export default function CropRecommendation() {
 
                             {autoMode && selectedState && (
                                 <div className="detected-state-text">
-                                    📍 Location detected: <strong>{selectedState}</strong>
+                                    📍 {t("crop_recommendation.locationDetected", { location: selectedState })}
                                 </div>
                             )}
                         </div>
@@ -253,7 +254,7 @@ export default function CropRecommendation() {
                             onClick={handleRecommend}
                             disabled={loading || (autoMode && !selectedState)}
                         >
-                            {loading ? "Analyzing..." : (t("crop_recommendation.getButton") || "Get Crop Recommendation")}
+                            {loading ? t("crop_recommendation.analyzing") : (t("crop_recommendation.getButton") || "Get Crop Recommendation")}
                         </button>
                     </div>
                 </div>
@@ -265,12 +266,12 @@ export default function CropRecommendation() {
                             <div className="result-content-wrapper">
                                 <div className="result-icon"><FaSeedling /></div>
 
-                                <h3>Best Crop according to data:</h3>
+                                <h3>{t("crop_recommendation.bestCrop")}</h3>
                                 <div className="recommended-crop">{result.top}</div>
 
                                 {result.others && result.others.length > 0 && (
                                     <div className="alternatives-section">
-                                        <h4>Other crops to consider:</h4>
+                                        <h4>{t("crop_recommendation.otherCrops")}</h4>
                                         <ol className="alternatives-list">
                                             {result.others.map((crop, index) => (
                                                 <li key={index}>{crop}</li>
@@ -282,7 +283,7 @@ export default function CropRecommendation() {
                         ) : (
                             <div className="placeholder-result">
                                 <FaLeaf className="placeholder-icon" />
-                                <p>Enter soil details or auto-detect location to get a recommendation.</p>
+                                <p>{t("crop_recommendation.enterDetails")}</p>
                             </div>
                         )}
                     </div>

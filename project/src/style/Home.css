@@ -17,7 +17,8 @@
 .right-panel {
   flex: 1;
   display: flex;
-  /* height: 100vh; */
+  padding: 0.8rem 1rem 0.8rem 0;
+  /* Align top with dashboard (0.8rem) and give right spacing */
 }
 
 /* Container for pages using home layout */
@@ -45,28 +46,7 @@
 }
 
 /* Floating Chat Icon (non-chat CSS but belongs to layout) */
-.chatbot-icon {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  /* background: var(--color-primary-strong); */
-  color: var(--color-button-text);
-  font-size: 1.8rem;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 1100;
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.2s ease-in-out, background var(--transition-theme);
-}
-
-.chatbot-icon:hover {
-  transform: scale(1.1);
-}
+/* .chatbot-icon removed */
 
 /* Responsive */
 @media (max-width: 900px) {

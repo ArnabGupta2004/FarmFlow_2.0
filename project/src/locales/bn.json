@@ -16,7 +16,9 @@
     "language": "ভাষা",
     "harvestAlerts": "ফসল কাটার সতর্কতা",
     "noAlerts": "কোনো ফসল কাটার সতর্কতা নেই",
-    "readyToHarvest": "আপনার {{crop}} ফসল কাটার জন্য প্রস্তুত"
+    "readyToHarvest": "আপনার {{crop}} ফসল কাটার জন্য প্রস্তুত",
+    "profile": "Profile",
+    "theme": "Theme"
   },
   "dashboard": {
     "hello": "হ্যালো",
@@ -46,7 +48,7 @@
     "noAlerts": "কোনো সতর্কতা নেই"
   },
   "login": {
-    "title": "লগইন",
+    "title": "Login",
     "uniqueID": "ইউনিক আইডি",
     "password": "পাসওয়ার্ড",
     "loginButton": "লগইন করুন",
@@ -58,7 +60,7 @@
     "serverError": "সার্ভার ত্রুটি। পরে আবার চেষ্টা করুন।"
   },
   "signup": {
-    "title": "সাইন আপ",
+    "title": "Sign Up",
     "uniqueID": "ইউনিক আইডি",
     "email": "ইমেল",
     "password": "পাসওয়ার্ড",
@@ -84,7 +86,7 @@
     "serverError": "সার্ভার ত্রুটি। আবার চেষ্টা করুন।"
   },
   "chatbot": {
-    "title": "কৃষিমিত্র চ্যাটবট",
+    "title": "কিসানমিত্র অ্যাসিস্ট",
     "placeholder": "আপনার বার্তা টাইপ করুন...",
     "send": "পাঠান",
     "serverError": "সার্ভার ত্রুটি",
@@ -108,7 +110,13 @@
     "requestSent": "অনুরোধ পাঠানো হয়েছে",
     "requestFailed": "অনুরোধ ব্যর্থ",
     "deleteConfirm": "স্থায়ীভাবে মুছবেন?",
-    "missingIds": "এই চুক্তির জন্য প্রয়োজনীয় আইডি অনুপস্থিত। চ্যাট খোলা যাচ্ছে না।"
+    "missingIds": "এই চুক্তির জন্য প্রয়োজনীয় আইডি অনুপস্থিত। চ্যাট খোলা যাচ্ছে না।",
+    "uploadImage": "Please upload an image first",
+    "success": "Prediction Complete!",
+    "error": "Prediction failed. Please try again.",
+    "heroTitle": "আপনার ফসলের জন্য সঠিক ডিলার খুঁজুন",
+    "messages": "বার্তা",
+    "noActiveChats": "কোনো সক্রিয় চ্যাট নেই"
   },
   "seller": {
     "defaultName": "বিক্রেতা",
@@ -138,5 +146,51 @@
     "delete": "মুছুন",
     "edit": "সম্পাদনা",
     "close": "বন্ধ"
+  },
+  "crop_recommendation": {
+    "title": "ফসল সুপারিশ",
+    "subtitle": "আপনার মাটি ও জলবায়ুর জন্য উপযুক্ত ফসল খুঁজুন",
+    "autoMode": "অবস্থান এবং আবহাওয়ার উপর ভিত্তি করে সুপারিশ করুন",
+    "getButton": "ফसल সুপারিশ পান",
+    "nitrogen": "নাইট্রোজেন (N)",
+    "phosphorus": "ফসফরাস (P)",
+    "potassium": "পটাশিয়াম (K)",
+    "phLevel": "pH স্তর",
+    "temperature": "তাপমাত্রা (°C)",
+    "humidity": "আর্দ্রতা (%)",
+    "rainfall": "বৃষ্টিপাত (mm)",
+    "locationDetected": "অবস্থান সনাক্ত হয়েছে: {{location}}",
+    "dataFetched": "{{state}}-এর জন্য তথ্য আনা হয়েছে",
+    "fetchFailed": "রাজ্যের তথ্য আনতে ব্যর্থ",
+    "analyzing": "বিশ্লেষণ করা হচ্ছে...",
+    "bestCrop": "তথ্য অনুযায়ী সেরা ফসল:",
+    "otherCrops": "বিবেচনা করার মতো অন্যান্য ফসল:",
+    "enterDetails": "সুপারিশ পেতে মাটির বিবরণ দিন বা অবস্থান স্বয়ংক্রিয়ভাবে সনাক্ত করুন।"
+  },
+  "disease_detection": {
+    "title": "ফসল ডাক্তার",
+    "subtitle": "AI-এর মাধ্যমে ফসলের রোগ অবিলম্বে সনাক্ত করুন",
+    "upload": "ছবি আপলোড করুন",
+    "camera": "ক্যামেরা ক্যাপচার",
+    "predict": "ফসলের রোগ নির্ণয় করুন",
+    "analyzing": "বিশ্লেষণ করা হচ্ছে...",
+    "diagnosisResult": "নির্ণয়ের ফলাফল",
+    "confidence": "আত্মবিশ্বাস",
+    "healthyMsg": "আপনার ফসল সুস্থ দেখাচ্ছে! ভালো কাজ চালিয়ে যান।",
+    "warningMsg": "রোগ সনাক্ত হয়েছে। অনুগ্রহ করে বিশেষজ্ঞের পরামর্শ নিন বা সুপারিশকৃত ছত্রাকনাশক প্রয়োগ করুন।",
+    "clickOrDrag": "এখানে ক্লিক করুন বা ছবি টেনে আনুন",
+    "capture": "ক্যাপচার",
+    "placeholder": "এখানে নির্ণয় দেখতে একটি ছবি আপলোড বা ক্যাপচার করুন।"
+  },
+  "profile": {
+    "userNotFound": "ব্যবহারকারী পাওয়া যায়নি",
+    "username": "ব্যবহারকারীর নাম",
+    "email": "ইমেল",
+    "location": "অবস্থান",
+    "notSpecified": "উল্লিখিত নেই",
+    "yourHarvests": "আপনার ফসল",
+    "noHarvestHistory": "এখনও কোনো ফসলের ইতিহাস নেই।",
+    "completed": "সম্পন্ন: ",
+    "notLoggedIn": "লগইন করা নেই"
   }
 }

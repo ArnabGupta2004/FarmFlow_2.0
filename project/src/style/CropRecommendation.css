@@ -9,6 +9,33 @@
     color: var(--color-text);
 }
 
+.cr-page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/cr.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    transform: scale(1.02);
+    z-index: -10;
+    pointer-events: none;
+    animation: bgFadeIn 0.5s ease-in-out;
+}
+
+@keyframes bgFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .detected-state-text {
     margin-left: 46px;
     /* Align with label text */
@@ -25,8 +52,12 @@
 
 .cr-header h1 {
     font-size: 2.5rem;
-    color: var(--color-heading);
+    color: white;
     margin-bottom: 0.5rem;
+}
+
+.cr-header p {
+    color: white;
 }
 
 .cr-card {

@@ -16,7 +16,8 @@ export default function ChatBox() {
   };
 
   // Initialize based on device type (Open on Desktop, Closed on Mobile)
-  const [isOpen, setIsOpen] = useState(!detectMobile());
+  // const [isOpen, setIsOpen] = useState(!detectMobile()); // REMOVED for embedded
+
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ export default function ChatBox() {
     if (msgsRef.current) {
       msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
     }
-  }, [chatHistory, error, isOpen]);
+  }, [chatHistory, error]); // Removed isOpen dependency
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -63,53 +64,39 @@ export default function ChatBox() {
     setLoading(false);
   };
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <>
-      {!isOpen && (
-        <button className="chatbot-icon" onClick={toggleChat}>
-          💬
-        </button>
-      )}
+    <div className="chatbot">
+      <div className="chat-header">
+        <div className="chat-title">{t("chatbot.title")}</div>
+        {/* Close button removed for embedded widget */}
+      </div>
 
-      {isOpen && (
-        <div className="chatbot">
-          <div className="chat-header">
-            <div className="chat-title">{t("chatbot.title")}</div>
-            <button className="close-btn" onClick={toggleChat}>✕</button>
+      <div className="msgs" ref={msgsRef}>
+        {chatHistory.map((m, i) => (
+          <div key={i} className={`chat-bubble ${m.sender}-bubble`}>
+            {m.text}
           </div>
+        ))}
 
-          <div className="msgs" ref={msgsRef}>
-            {chatHistory.map((m, i) => (
-              <div key={i} className={`chat-bubble ${m.sender}-bubble`}>
-                {m.text}
-              </div>
-            ))}
+        {error && <p className="error-msg">{error}</p>}
+      </div>
 
-            {error && <p className="error-msg">{error}</p>}
-          </div>
+      {/* Restore your FULL styled send button */}
+      <div className="msg-box">
+        <form onSubmit={handleSend}>
+          <input
+            type="text"
+            className="chat-input"
+            placeholder={t("chatbot.placeholder")}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
 
-          {/* Restore your FULL styled send button */}
-          <div className="msg-box">
-            <form onSubmit={handleSend}>
-              <input
-                type="text"
-                className="chat-input"
-                placeholder={t("chatbot.placeholder")}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-
-              <button type="submit" disabled={loading}>
-                {loading ? "..." : t("chatbot.send")}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-    </>
+          <button type="submit" disabled={loading}>
+            {loading ? "..." : t("chatbot.send")}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

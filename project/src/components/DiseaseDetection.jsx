@@ -89,9 +89,10 @@ export default function DiseaseDetection() {
 
     return (
         <div className="disease-detection-container">
+            <div className="dd-page-background"></div>
             <Toaster />
             <div className="dd-header">
-                <h1>🌿 {t("disease_detection.title") || "Disease Detection"}</h1>
+                <h1>{t("disease_detection.title") || "Disease Detection"}</h1>
                 <p>{t("disease_detection.subtitle") || "Detect crop diseases instantly with AI"}</p>
             </div>
 
@@ -104,13 +105,13 @@ export default function DiseaseDetection() {
                                 className={`tab-btn ${activeTab === "upload" ? "active" : ""}`}
                                 onClick={() => setActiveTab("upload")}
                             >
-                                <FaCloudUploadAlt /> {t("Upload")}
+                                <FaCloudUploadAlt /> {t("disease_detection.upload")}
                             </button>
                             <button
                                 className={`tab-btn ${activeTab === "camera" ? "active" : ""}`}
                                 onClick={() => setActiveTab("camera")}
                             >
-                                <FaCamera /> {t("Camera")}
+                                <FaCamera /> {t("disease_detection.camera")}
                             </button>
                         </div>
 
@@ -121,7 +122,7 @@ export default function DiseaseDetection() {
                                         <input type="file" accept="image/*" id="file-upload" hidden onChange={handleFileChange} />
                                         <label htmlFor="file-upload" className="upload-label">
                                             <FaCloudUploadAlt className="upload-icon" />
-                                            <p>Click or Drag Image Here</p>
+                                            <p>{t("disease_detection.clickOrDrag")}</p>
                                         </label>
                                     </div>
                                 ) : (
@@ -134,7 +135,7 @@ export default function DiseaseDetection() {
                                             videoConstraints={{ width: 1280, height: 720, facingMode: "user" }}
                                         />
                                         <button className="capture-btn" onClick={capture}>
-                                            <FaCamera /> Capture
+                                            <FaCamera /> {t("disease_detection.capture")}
                                         </button>
                                     </div>
                                 )
@@ -151,7 +152,7 @@ export default function DiseaseDetection() {
                             onClick={handlePredict}
                             disabled={!image || loading}
                         >
-                            {loading ? "Analyzing..." : "Diagnose Crop"}
+                            {loading ? t("disease_detection.analyzing") : t("disease_detection.predict")}
                         </button>
                     </div>
                 </div>
@@ -195,7 +196,7 @@ export default function DiseaseDetection() {
                         ) : (
                             <div className="placeholder-result">
                                 <FaLeaf className="placeholder-icon" />
-                                <p>Upload or capture an image to see the diagnosis here.</p>
+                                <p>{t("disease_detection.placeholder")}</p>
                             </div>
                         )}
                     </div>

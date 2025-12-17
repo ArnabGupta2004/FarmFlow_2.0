@@ -16,7 +16,9 @@
     "language": "భాష",
     "harvestAlerts": "పంట కోత హెచ్చరికలు",
     "noAlerts": "పంట కోత హెచ్చరికలు లేవు",
-    "readyToHarvest": "మీ {{crop}} కోతకు సిద్ధంగా ఉంది"
+    "readyToHarvest": "మీ {{crop}} కోతకు సిద్ధంగా ఉంది",
+    "profile": "Profile",
+    "theme": "Theme"
   },
   "dashboard": {
     "hello": "హలో",
@@ -40,10 +42,13 @@
     "schemeLink": "పథకం లింక్",
     "noSchemes": "పథకాలు కనుగొనబడలేదు",
     "weatherAlerts": "వాతావరణ హెచ్చరికలు",
-    "noAlerts": "హెచ్చరికలు లేవు"
+    "noAlerts": "హెచ్చరికలు లేవు",
+    "celsius": "°C",
+    "rain": "Rain:",
+    "mm": "mm"
   },
   "login": {
-    "title": "లాగిన్",
+    "title": "Login",
     "uniqueID": "ప్రత్యేక ID",
     "password": "పాస్‌వర్డ్",
     "loginButton": "లాగిన్ చేయండి",
@@ -55,7 +60,7 @@
     "serverError": "సర్వర్ లోపం. తర్వాత మళ్లీ ప్రయత్నించండి."
   },
   "signup": {
-    "title": "సైన్ అప్",
+    "title": "Sign Up",
     "uniqueID": "ప్రత్యేక ID",
     "email": "ఇమెయిల్",
     "password": "పాస్‌వర్డ్",
@@ -81,7 +86,7 @@
     "serverError": "సర్వర్ లోపం. మళ్లీ ప్రయత్నించండి."
   },
   "chatbot": {
-    "title": "కృషిమిత్ర చాట్‌బాట్",
+    "title": "కిసాన్‌మిత్ర అసిస్ట్",
     "placeholder": "మీ సందేశాన్ని టైప్ చేయండి...",
     "send": "పంపు",
     "serverError": "సర్వర్ లోపం",
@@ -105,7 +110,13 @@
     "requestSent": "అభ్యర్థన పంపబడింది",
     "requestFailed": "అభ్యర్థన విఫలమైంది",
     "deleteConfirm": "శాశ్వతంగా తొలగించాలా?",
-    "missingIds": "ఈ ఒప్పందానికి అవసరమైన IDలు లేవు. చాట్ తెరవలేకపోయాము."
+    "missingIds": "ఈ ఒప్పందానికి అవసరమైన IDలు లేవు. చాట్ తెరవలేకపోయాము.",
+    "uploadImage": "Please upload an image first",
+    "success": "Prediction Complete!",
+    "error": "Prediction failed. Please try again.",
+    "heroTitle": "Find the perfect dealer for your crops",
+    "messages": "Messages",
+    "noActiveChats": "No Active Chats"
   },
   "seller": {
     "defaultName": "విక్రేత",
@@ -135,5 +146,51 @@
     "delete": "తొలగించు",
     "edit": "సవరించు",
     "close": "మూసివేయి"
+  },
+  "crop_recommendation": {
+    "title": "Crop Recommendation",
+    "subtitle": "Find the perfect crop for your soil & climate",
+    "autoMode": "Recommend based on location and weather",
+    "getButton": "Get Crop Recommendation",
+    "nitrogen": "Nitrogen (N)",
+    "phosphorus": "Phosphorus (P)",
+    "potassium": "Potassium (K)",
+    "phLevel": "pH Level",
+    "temperature": "Temperature (°C)",
+    "humidity": "Humidity (%)",
+    "rainfall": "Rainfall (mm)",
+    "locationDetected": "Location detected: {{location}}",
+    "dataFetched": "Data fetched for {{state}}",
+    "fetchFailed": "Failed to fetch data for state",
+    "analyzing": "Analyzing...",
+    "bestCrop": "Best Crop according to data:",
+    "otherCrops": "Other crops to consider:",
+    "enterDetails": "Enter soil details or auto-detect location to get a recommendation."
+  },
+  "disease_detection": {
+    "title": "Crop Doctor",
+    "subtitle": "Detect crop diseases instantly with AI",
+    "upload": "Upload Image",
+    "camera": "Camera Capture",
+    "predict": "Diagnose Crop",
+    "analyzing": "Analyzing...",
+    "diagnosisResult": "Diagnosis Result",
+    "confidence": "Confidence",
+    "healthyMsg": "Your crop looks healthy! Keep up the good work.",
+    "warningMsg": "Disease detected. Please consult an expert or apply recommended fungicides.",
+    "clickOrDrag": "Click or Drag Image Here",
+    "capture": "Capture",
+    "placeholder": "Upload or capture an image to see the diagnosis here."
+  },
+  "profile": {
+    "userNotFound": "User not found",
+    "username": "Username",
+    "email": "Email",
+    "location": "Location",
+    "notSpecified": "Not specified",
+    "yourHarvests": "Your Harvests",
+    "noHarvestHistory": "No harvest history yet.",
+    "completed": "Completed: ",
+    "notLoggedIn": "Not logged in"
   }
 }

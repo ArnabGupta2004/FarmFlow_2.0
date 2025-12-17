@@ -50,7 +50,7 @@ const Profile = () => {
 
     if (loading) return <div className="profile-loading">{t("dashboard.fetching")}...</div>;
     if (error) return <div className="profile-container"><div className="profile-error">{error}</div></div>;
-    if (!user) return <div className="profile-container"><div className="profile-error">User not found</div></div>;
+    if (!user) return <div className="profile-container"><div className="profile-error">{t("profile.userNotFound")}</div></div>;
 
     // Use Username (userID) for initial
     const username = user.name || userID || "User";
@@ -68,21 +68,21 @@ const Profile = () => {
 
                 <div className="profile-details">
                     <div className="detail-row">
-                        <span className="detail-label">Username</span>
+                        <span className="detail-label">{t("profile.username")}</span>
                         <span className="detail-value">{userID}</span>
                     </div>
 
                     <div className="detail-row">
-                        <span className="detail-label">Email</span>
+                        <span className="detail-label">{t("profile.email")}</span>
                         <span className="detail-value">{user.email || "N/A"}</span>
                     </div>
 
                     <div className="detail-row">
-                        <span className="detail-label">Location</span>
+                        <span className="detail-label">{t("profile.location")}</span>
                         <span className="detail-value">
                             {user.district && user.state
                                 ? `${user.district}, ${user.state}`
-                                : (user.state || "Not specified")}
+                                : (user.state || t("profile.notSpecified"))}
                         </span>
                     </div>
                 </div>
@@ -90,19 +90,19 @@ const Profile = () => {
                 {/* Expandable Harvest History */}
                 <div className="history-section">
                     <button className="history-toggle" onClick={toggleHistory}>
-                        <span>Your Harvests</span>
+                        <span>{t("profile.yourHarvests")}</span>
                         {historyOpen ? <FaChevronUp /> : <FaChevronDown />}
                     </button>
 
                     {historyOpen && (
                         <div className="history-list">
                             {history.length === 0 ? (
-                                <p className="history-empty">No harvest history yet.</p>
+                                <p className="history-empty">{t("profile.noHarvestHistory")}</p>
                             ) : (
                                 history.map((item, index) => (
                                     <div key={index} className="history-item">
                                         <span className="history-crop">{item.text}</span>
-                                        <span className="history-date">Completed: {item.date}</span>
+                                        <span className="history-date">{t("profile.completed")}{item.date}</span>
                                     </div>
                                 ))
                             )}

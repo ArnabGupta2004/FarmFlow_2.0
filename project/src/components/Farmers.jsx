@@ -188,7 +188,7 @@ export default function Farmer() {
         <div className="hero-content">
 
           <h2 className="hero-headline">
-            Find the perfect dealer <br /> for your crops
+            {t("farmers.heroTitle")}
           </h2>
 
           <div className="hero-search-bar">
@@ -275,13 +275,13 @@ export default function Farmer() {
         {/* Popup List */}
         <div className={`chat-popup ${showChatList ? 'show' : ''}`}>
           <div className="chat-popup-header">
-            <h3>Messages ({acceptedDeals.length})</h3>
+            <h3>{t("farmers.messages")} ({acceptedDeals.length})</h3>
             <button onClick={() => setShowChatList(false)}><FaTimes /></button>
           </div>
 
           <div className="chat-popup-body">
             {acceptedDeals.length === 0 ? (
-              <p className="no-chats">No Active Chats</p>
+              <p className="no-chats">{t("farmers.noActiveChats")}</p>
             ) : (
               acceptedDeals.map((d) => (
                 <div key={d.id} className="chat-item">

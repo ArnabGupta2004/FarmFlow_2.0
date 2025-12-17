@@ -18,6 +18,7 @@ from rank_bm25 import BM25Okapi
 import warnings
 warnings.filterwarnings("ignore")
 
+os.environ["TRANSFORMERS_NO_TF"] = "1"
 # -----------------------
 # GOV SCHEME ENGINE (FROM FILE O)
 # -----------------------
@@ -1050,13 +1051,82 @@ DISEASE_MODEL_ERROR = None
 try:
     print("Loading Disease Model...")
     import tensorflow as tf
-    model_path = os.path.join(os.path.dirname(__file__), "models", "trained_plant_disease_model.h5")
+    from tensorflow.keras.layers import InputLayer
+
+    # ---- Keras backward compatibility patch ----
+    # TensorFlow 2.15+ doesn't accept 'shape' parameter in InputLayer config
+    # This patch converts old 'shape' parameter to 'batch_input_shape'
+    _original_from_config = InputLayer.from_config
+
+    @classmethod
+    def patched_from_config(cls, config):
+        config = dict(config)
+        
+        # Handle old 'shape' parameter that's no longer accepted
+        if "shape" in config and "batch_input_shape" not in config:
+            shape = config.pop("shape")
+            # Convert shape to batch_input_shape with None for batch dimension
+            config["batch_input_shape"] = (None,) + tuple(shape)
+        
+        # Handle batch_shape if present
+        if "batch_shape" in config and "batch_input_shape" not in config:
+            config["batch_input_shape"] = config.pop("batch_shape")
+        
+        return _original_from_config(config)
+
+    InputLayer.from_config = patched_from_config
+    
+    # ---- DTypePolicy backward compatibility patch ----
+    # Some models saved with newer Keras versions use 'DTypePolicy'
+    # We need to define it so it can be deserialized
+    class DTypePolicy:
+        def __init__(self, name=None, **kwargs):
+            self._name = name or "float32"
+            self._global_policy = None
+            
+        @property
+        def name(self):
+            return self._name
+            
+    class DTypePolicy:
+        def __init__(self, name=None, **kwargs):
+            self._name = name or "float32"
+            self._global_policy = None
+            
+        @property
+        def name(self):
+            return self._name
+            
+        def __getattr__(self, name):
+            # Fallback for any other attributes Keras might look for
+            # (variable_dtype, compute_dtype, etc.)
+            return self._name
+            
+        def get_config(self):
+            return {"name": self._name}
+            
+        @classmethod
+        def from_config(cls, config):
+            return cls(**config)
+    # -------------------------------------------------
+
+    model_path = os.path.join(
+        os.path.dirname(__file__),
+        "models",
+        "trained_plant_disease_model.h5"
+    )
+
     if os.path.exists(model_path):
-        DISEASE_MODEL = tf.keras.models.load_model(model_path)
+        DISEASE_MODEL = tf.keras.models.load_model(
+            model_path,
+            compile=False,
+            custom_objects={'DTypePolicy': DTypePolicy}
+        )
         print("Disease Model Loaded Successfully!")
     else:
         DISEASE_MODEL_ERROR = f"Model file not found at {model_path}"
         print(DISEASE_MODEL_ERROR)
+
 except Exception as e:
     DISEASE_MODEL_ERROR = str(e)
     print(f"Error loading disease model: {e}")
