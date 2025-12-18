@@ -1,5 +1,7 @@
 import sys
 import os
+import tempfile
+import whisper
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 try:
     import torch
@@ -84,6 +86,12 @@ ABI = [
         "type": "function",
     }
 ]
+
+# -----------------------
+# WHISPER MODEL
+# -----------------------
+WHISPER_MODEL = None
+WHISPER_MODEL_ERROR = None
 
 
 # -----------------------
@@ -983,23 +991,110 @@ def chatbot():
     if not user_input:
         return jsonify({"error": "Empty message"}), 400
 
+    print(f"DEBUG CHATBOT: Received lang='{lang}', message='{user_input}'")
+
     try:
         # Translate user message to English for RAG processing
         english_input = user_input
         if lang != "en" and lang in SUPPORTED_LANGUAGES:
             english_input = translate_to_english(user_input, lang)
+            # Fallback to LLM if standard translation failed
+            if english_input == user_input and rag and hasattr(rag, 'llm'):
+                print(f"DEBUG: Translation fallback to LLM for input ({lang} -> en)")
+                try:
+                    lang_name = SUPPORTED_LANGUAGES.get(lang, lang)
+                    # Use a system-like prompt for better instructions
+                    prompt = f"Translate the following text from {lang_name} to English. Output ONLY the translation, no extra text: {user_input}"
+                    resp = rag.llm.invoke(prompt)
+                    english_input = resp.content.strip()
+                except Exception as e:
+                    print(f"LLM Input Translation Error: {e}")
+            
+            print(f"DEBUG CHATBOT: Final English input='{english_input}'")
 
         # Process with RAG in English
         ans = rag.search_and_summarize(english_input)
 
         # Translate response back to user's language
         if lang != "en" and lang in SUPPORTED_LANGUAGES:
+            original_ans = ans
             ans = translate_from_english(ans, lang)
+            # Fallback to LLM if standard translation failed
+            if ans == original_ans and rag and hasattr(rag, 'llm'):
+                 print(f"DEBUG: Translation fallback to LLM for output (en -> {lang})")
+                 try:
+                    lang_name = SUPPORTED_LANGUAGES.get(lang, lang)
+                    prompt = f"Translate the following text from English to {lang_name}. Output ONLY the translation, no extra text: {original_ans}"
+                    resp = rag.llm.invoke(prompt)
+                    ans = resp.content.strip()
+                 except Exception as e:
+                    print(f"LLM Output Translation Error: {e}")
 
         return jsonify({"reply": ans}), 200
     except Exception as e:
         print("CHATBOT ERROR:", e)
         return jsonify({"error": "RAG search failed"}), 500
+
+
+@app.post("/transcribe")
+def transcribe_audio():
+    global WHISPER_MODEL, WHISPER_MODEL_ERROR
+    
+    if 'audio' not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+    
+    print(f"DEBUG TRANSCRIBE: Form data: {request.form}")
+    
+    
+    audio_file = request.files['audio']
+    if audio_file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        # Lazy load model
+        if WHISPER_MODEL is None:
+            if WHISPER_MODEL_ERROR:
+                 return jsonify({"error": f"Whisper model previously failed: {WHISPER_MODEL_ERROR}"}), 500
+            print("Loading Whisper model (base)... this may take a moment.")
+            try:
+                WHISPER_MODEL = whisper.load_model("base")
+                print("Whisper model loaded!")
+            except Exception as e:
+                WHISPER_MODEL_ERROR = str(e)
+                print(f"Whisper Load Error: {e}")
+                return jsonify({"error": f"Failed to load module: {e}"}), 500
+
+        # Save temporarily
+        # Windows temp file handling can be tricky with delete=True if we close it and then reopen, 
+        # so we use delete=False and manually remove.
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
+            audio_file.save(temp_audio.name)
+            temp_path = temp_audio.name
+        
+        try:
+            # Transcribe
+            # fp16=False is safer on CPU if no GPU available, though whisper handles it nicely generally.
+            # user likely on CPU if not specified.
+            lang = request.form.get("lang") or request.args.get("lang")
+            print(f"DEBUG TRANSCRIBE: Detected lang='{lang}'")
+            options = {"fp16": False}
+            if lang and lang != "en":
+                 options["language"] = lang
+            
+            result = WHISPER_MODEL.transcribe(temp_path, **options)
+            text = result["text"].strip()
+        except Exception as e:
+            raise e
+        finally:
+            # Cleanup
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+        
+        return jsonify({"text": text}), 200
+
+    except Exception as e:
+        print(f"Transcription error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 # ============================================================
